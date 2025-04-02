@@ -59,7 +59,7 @@ This runs:
 
 ## 📊 Dashboard
 
-The Grafana dashboard is provisioned automatically from `stock_dashboard_fixed.json`. You can also access it live via:
+The Grafana dashboard is provisioned automatically from `stock_dashboard.json`. You can also access it live via:
 
 **🔗 Public dashboard:**
 ```
