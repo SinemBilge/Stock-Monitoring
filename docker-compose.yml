@@ -1,0 +1,44 @@
+services:
+  stock_exporter:
+    build: ./stock_exporter
+    ports:
+      - "8000:8000"
+    networks:
+      - monitoring
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prom_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - "9090:9090"
+    networks:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+    networks:
+      - monitoring
+
+  grafana-agent:
+    image: grafana/agent:v0.38.1
+    container_name: grafana-agent
+    volumes:
+      - ./agent-config.yml:/etc/agent/agent-config.yml
+    command: -config.file=/etc/agent/agent-config.yml
+    networks:
+      - monitoring
+
+volumes:
+  prom_data:
+
+networks:
+  monitoring:
